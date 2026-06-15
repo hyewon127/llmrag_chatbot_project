@@ -3,4 +3,8 @@ venv/
 .venv/
 
 2. .env 파일
-.env
+.env 
+
+3. 캐쉬 파일
+__pycache__/
+*.pyc 
