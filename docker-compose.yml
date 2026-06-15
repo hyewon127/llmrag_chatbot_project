@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  opensearch:
+    image: opensearchproject/opensearch:2.15.0
+    container_name: opensearch
+
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD}
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+
+
+    ports:
+      - "9200:9200"
+  mysql:
+    image: mysql:8.0
+
+    container_name: mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ragdb
+
+    ports:
+      - "3307:3306"
+
+  fastapi:
+
+    build: ./fastapi
+
+    container_name: fastapi
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - opensearch
